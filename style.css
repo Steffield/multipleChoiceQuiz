@@ -24,7 +24,11 @@ body {
     color: black;
 }
 
-#start-btn,
+.start-btn{
+    font-size: 1.2em;
+
+}
+
 #goBack-btn,
 #clear-btn {
     font-size: 1.2em;

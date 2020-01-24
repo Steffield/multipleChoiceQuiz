@@ -12,4 +12,4 @@ The score is calculated by time remaining. Answering quickly and correctly resul
 
 When time runs out and/or all questions are answered, the user is presented with his/her final score and asked to enter his/her initials. The user's final score and initials are then stored in localStorage.
 
-<img src="quiz.png>
+<img src="quiz.png">

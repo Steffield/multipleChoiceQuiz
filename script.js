@@ -1,12 +1,13 @@
-//Still need to do
-    //view highscore-- on zero later highest achieved score so far-- local storage
-    //in the start function my for loop and if statement dont work properly
-        //-->for loop shows the last question only
-        //-->if statement doesnt refer to right source it seems
-    //next question after 15sec still needs to be added
-    //10 sec penalty when wrong answer selected
-    //final score= initials : time remaining in local storage and show in last high score div
-    // go back and clear buttons on last page
+//what is not working
+//1. it deducts time and gives instant "wrong" feeback when you start before you clicked a button. Must be an error in the eventlistener if statement
+//2. setTimout function doesnt work
+    //tried to use it to change the question every 15sec and to show the feedback for 1 second only
+//3. go to scoreCon and stop the time after the last question is answered. Since I never made it work with a for loop, I don't know how to do that
+//4. when all questions are answered the variable secondsLeft should stop and the value should be going into the  var finalScore container
+// 5. the entered initals shoudl stay in local storage
+    //on last page retrieve initals plus score
+    //store former highscores
+
 
 //global scopre variables
 //Buttons start page
@@ -32,6 +33,7 @@ var secondsLeft = 0;
 //score
 var questionsCorrect= 0;
 var timeRemain=secondsLeft;
+var finalScore =document.getElementById("finalScore");
 
 
 // choice buttons
@@ -58,7 +60,7 @@ function setTime (){
         secondsLeft--;
         timeEl.textContent = "Time: "+ secondsLeft;
         
-        if(secondsLeft === 0) {
+        if(secondsLeft <= 0) {
             clearInterval(timerInterval);
             //alert("Your time is up!");
             scoreReport();
@@ -86,109 +88,89 @@ function startQuestions() {
     startCon.setAttribute("style", "display: none;");
     questionCon.setAttribute("style", "display: block;");
     //controls.setAttribute("style", "display: block;");
-    
+
+
     //retrieve questions 
-    for(var i=0; i< questions.length; i++){
-        question.innerHTML=questions[i].title;
+    //for(var i=0; i< questions.length; i++){
+        var i=0;
+        question.innerHTML=(i+1) + ". " + questions[i].title;
         choice1.innerHTML=questions[i].choices[0];
         choice2.innerHTML=questions[i].choices[1];
         choice3.innerHTML=questions[i].choices[2];
         choice4.innerHTML=questions[i].choices[3];
 
         //move to next question after 15sec
-        var timerLimit = timeLimit(function() {
-            var timForQuestion= 15;
-            if(timeForQuestion==0){
+        // timeLimit(function() {
+        //     var timeForQuestion= 15;
+        //     timeForQuestion--;
+        //     if(timeForQuestion==0){
+        //         i++;
+        //     }
+        // }, 1000);
+        // timeLimit();
+        
+
+        document.addEventListener("click", function(event) {
+            console.log(event.target.id);
+            
+            if(event.target.id==questions[i].answer){
+                //score+=1;
+                //startCon.setAttribute("style", "display: none;");
+                setTimeout(function(event){
+                    correctCon.setAttribute("style", "display: block;");
+                    wrongCon.setAttribute("style", "display:none;")
+                }, 1000);
+                //setTimeout(event); 
+            
+                //setTimeout function doesnt work mu
                 i++;
+                question.innerHTML=(i+1) + ". " + questions[i].title;
+                choice1.innerHTML=questions[i].choices[0];
+                choice2.innerHTML=questions[i].choices[1];
+                choice3.innerHTML=questions[i].choices[2];
+                choice4.innerHTML=questions[i].choices[3];
+
+            //} else if (event.target.id !== questions[i].answer && event.target.id==questions[i].choices){
+                
+            } else if (event.target.id !== questions[i].answer){
+                setTimeout(function(event){  
+                    correctCon.setAttribute("style", "display: none;");
+                    wrongCon.setAttribute("style", "display:block;")
+                    }, 1000);
+                //setTimeout(event);
+                secondsLeft-=10;
+                //doesnt work bc the answer is choice which equals other answers before
+            // } else if (event.target.id==questions[4].answer){
+            //     startCon.setAttribute("style", "display: none;");
+            //     questionCon.setAttribute("style", "display: none;");
+            //     scoreCon.setAttribute("style", "display: block;")
+            //     finalScore.innerHTML=secondsLeft;
+
             }
-        }, 1000);
-        timeLimit();
+        });
 
        
-    }
-}
-
- //selected buttons 
- document.addEventListener("click", function(event) {
-    console.log(event.target.id);
-    if(event.target.id==questions.answer){
-        //score+=1;
-        startCon.setAttribute("style", "display: none;");
-        correctCon.setAttribute("style", "display: block;");
-        i++
-        //var i=1;
-        var q= questions[i];
-        question.innerHTML=(i+1) + ". " + q.title;
-        choice1.innerHTML=q.choices[0];
-        choice2.innerHTML=q.choices[1];
-        choice3.innerHTML=q.choices[2];
-        choice4.innerHTML=q.choices[3];
-    } else if (event.target.id !== questions.answer){
-        correctCon.setAttribute("style", "display: none;");
-        wrongCon.setAttribute("style", "display: block;");
-        secondsLeft-=10;
-    }
-});
-        
-        // choiceBtn1.addEventListener("click", function(){
-        //     if(questions[i].choices[0]==questions[i].answer){
-        //         i++;
-        //     }else if (questions[i].choices[0]!==questions[i].answer){
-        //         secondsLeft= secondsLeft-10;
-        //     }
-        // });
-        // choiceBtn2.addEventListener("click", function(){
-        //     if(questions[i].choices[1]==questions[i].answer){
-        //         i++;
-        //     }else if (questions[i].choices[1]!==questions[i].answer){
-        //         secondsLeft= secondsLeft-10;
-        //     }
-        // });
-        // choiceBtn3.addEventListener("click", function(){
-        //     if(questions[i].choices[2]==questions[i].answer){
-        //         i++;
-        //     }else if (questions[i].choices[2]!==questions[i].answer){
-        //         secondsLeft= secondsLeft-10;
-        //     }
-        // });
-        // choiceBtn4.addEventListener("click", function(){
-        //     if(questions[i].choices[3]==questions[i].answer){
-        //         i++;
-        //     }else if (questions[i].choices[3]!==questions[i].answer){
-        //         secondsLeft= secondsLeft-10;
-        //     }
-            
-        // });
- 
-
-    //next question if 15sec passed
-    // var timeForQuestion= setTimeout(() => console.log("Question should change now!"), 15000);
-    // timeForQuestion= setTimeout(i++, 15000);
-    // setTimeout(function(){
-    //     i++;
-    // },15000);
-
-
-//Feedback to cliked question
+ }
     
-
-        //wrongCon or correctCon should only display 2seconds or so
-
 
 var initials= document.getElementById("initialText");
 // the final score is determined by how much time is left when quiz is over
-var finalScore=timeRemain;
+var finalScore=secondsLeft;
 var submit =document.getElementById("submit-btn");
 
 
 function scoreReport(){
-    console.log("score function works");
+    console.log("score function runs");
     //change to Score container
     startCon.setAttribute("style", "display: none;");
     questionCon.setAttribute("style", "display: none;");
     //controls.setAttribute("style", "display: none;");
     scoreCon.setAttribute("style", "display: block;");
     //show final score
+    finalScore.innerHTML=secondsLeft;
+}
+
+    
 
     //store initals and score
     localStorage.setItem("initials", JSON.stringify(initials));
@@ -199,7 +181,7 @@ function scoreReport(){
     var user= lastUser +" : Score = "+ timeRemain;
     console.log(user);    
     
-}
+
 
 
 submit.addEventListener("click", highScoreReport);

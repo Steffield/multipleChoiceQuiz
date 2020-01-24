@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="./style.css" />
-    <script defer src="./script2.js"></script>
+    <script defer src="./script.js"></script>
     <script defer src="./questions.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
 
@@ -57,7 +57,7 @@
                     </div>
                     <div id= "feedbackWrong" style="display:none;">
                         <hr class="my-4">
-                        <h6>Try again!</h6>
+                        <h6>Try again! 10sec will be deducted!</h6>
                     </div>
                 </div>
                     <!--<div class="controls" style="display:none;">
@@ -69,7 +69,7 @@
                 <div id="scoreContainer" style ="display:none;">
                     <div id= "score-report">
                         <h1>All done!</h1>
-                        <p>Your final score is: </p>
+                        <p>Your final score is: <span id= finalScore></span></p>
                         <p>Enter initials: <input type="text" placeholder="JK" name ="initial-text" id="initialText"/>  <button id="submit-btn">Submit</button></p>      
                     </div>
                 </div>

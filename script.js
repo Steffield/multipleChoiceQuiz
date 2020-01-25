@@ -1,7 +1,3 @@
-//what is not working
-//1. toUpperCase() for intials
-//2. clear doesnt work
-
 //global scopre variables
 //Buttons start page
 var startEl = document.querySelector(".start-btn");
@@ -83,12 +79,10 @@ function finishQuiz() {
 function saveScore() {
   //store initals and score
   var initials = initialsEl.value;
-  localStorage.setItem('initials', initials);
+  localStorage.setItem('initials', initials.toUpperCase());
   localStorage.setItem('score', getScore());
   gotoHighScoreReport();
   highScoreEl.innerHTML=msRemaining/1000;
-  initials.toUpperCase();
-  return initials;
 }
 
 function startTimer() {
@@ -207,10 +201,11 @@ function gotoHighScoreReport(){
     scoreConEl.setAttribute("style", "display: none;");
     lastConEl.setAttribute("style", "display:block;");
     document.getElementById("prevScores").innerHTML = localStorage.getItem('initials') + ': '+ localStorage.getItem('score');
-}
-
-function clearHighscores(){
-  localStorage.clear();
+  }
+  
+  function clearHighscores(){
+    localStorage.clear();
+    document.getElementById("prevScores").innerHTML = "";
   return;
 }
 

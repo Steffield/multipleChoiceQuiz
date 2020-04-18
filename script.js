@@ -1,4 +1,5 @@
-//global scopre variables
+//global scope variables
+
 //Buttons start page
 var startEl = document.querySelector(".start-btn");
 var controlsEl = document.querySelector(".controls");
@@ -16,6 +17,7 @@ var scoreConEl = document.getElementById("scoreContainer");
 var correctConEl = document.getElementById("feedbackCorrect");
 var wrongConEl = document.getElementById("feedbackWrong");
 var finalScoreEl = document.getElementById("finalScore");
+var initialText = document.getElementById("initialText");
 
 // choice buttons
 var choiceParentEl = document.querySelectorAll("btn-grid");
@@ -32,6 +34,7 @@ var choice4El = document.getElementById("choice4");
 //var finalScore = secondsLeft;
 var submitEl = document.getElementById("submit-btn");
 
+
 //last page buttons
 var goBackBtnEl = document.getElementById("goBack-btn");
 var clearBtnEl = document.getElementById("clear-btn");
@@ -44,7 +47,7 @@ var msMaxQuestionViewingTime = 15000;
 var currentlyViewingQuestionIndex = 0;
 var questionTimerId;
 var intervalId;
-
+//var lettersOnly  = [^a-zA-Z]+/
 
 // Function that kicks everything off
 function init () {
@@ -79,10 +82,12 @@ function finishQuiz() {
 function saveScore() {
   //store initals and score
   var initials = initialsEl.value;
+  //allLetterCheck();
   localStorage.setItem('initials', initials.toUpperCase());
   localStorage.setItem('score', getScore());
   gotoHighScoreReport();
   highScoreEl.innerHTML=msRemaining/1000;
+  
 }
 
 function startTimer() {
@@ -162,10 +167,12 @@ function answerQuestion(evt) {
 
 function onQuestionCorrect() {
   console.log("correct");
-  //intervalId = setInterval(function() {
-    correctConEl.setAttribute("style", "display: block;");
+  correctConEl.setAttribute("style", "display: block;");
+  wrongConEl.setAttribute("style", "display:none;");
+  if(currentlyViewingQuestionIndex===4){
+    correctConEl.setAttribute("style", "display: none;");
     wrongConEl.setAttribute("style", "display:none;");
-    //},1000);
+  };
   gotoNextQuestion();
 }
 
@@ -186,6 +193,7 @@ function gotoScoreReport(){
     //controlsEl.setAttribute("style", "display: none;");
     scoreConEl.setAttribute("style", "display: block;");
     //show final score
+    initialText.innerHTML ="";
     finalScore.innerHTML = getScore();
     return;
 }
@@ -202,6 +210,7 @@ function gotoHighScoreReport(){
     lastConEl.setAttribute("style", "display:block;");
     document.getElementById("prevScores").innerHTML = localStorage.getItem('initials') + ': '+ localStorage.getItem('score');
   }
+
   
   function clearHighscores(){
     localStorage.clear();
@@ -213,6 +222,9 @@ function  backtoStart(){
   startConEl.setAttribute("style", "display: block;");
   lastConEl.setAttribute("style", "display: none;");
   currentlyViewingQuestionIndex=0;
+  highScoreEl.innerHTML="View Highscore";
+  timeEl.innerHTML = "Time";
+  msRemaining =75000;
 }
 
 init();
